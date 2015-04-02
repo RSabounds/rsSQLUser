@@ -183,7 +183,7 @@ function Set-TargetResource
     }
     
     # Creating new SQL User Account.
-    if(!($server.Logins | ? LoginType -eq "SqlLogin" | ? Name -match $User.UserName))
+    if(!($server.Logins | ? LoginType -eq "SqlLogin" | ? Name -eq $User.UserName))
     {
         $login = new-object Microsoft.SqlServer.Management.Smo.Login($server, $User.UserName)
         $login.LoginType = 'SqlLogin'
@@ -198,9 +198,9 @@ function Set-TargetResource
         }
     }
     # Updating password for an exising SQL User Account to match State.
-    elseif(($server.Logins | ? LoginType -eq "SqlLogin" | ? Name -match $User.UserName))
+    elseif(($server.Logins | ? LoginType -eq "SqlLogin" | ? Name -eq $User.UserName))
     {
-        $login = new-object Microsoft.SqlServer.Management.Smo.Login($server, $User.UserName)
+        $login = $server.Logins | ? LoginType -eq "SqlLogin" | ? Name -eq $User.UserName
         $login.ChangePassword($User.GetNetworkCredential().Password, $true, $false)
     }
 }
