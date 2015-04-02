@@ -1,23 +1,37 @@
+rsMSSQL
+=====
+
+This module contains tools for managing and configuring SQL resources. The module contains each of the following:
+
 rsSQLUser
 =====
 
-This module allows for the creation or password management of a SQL user account using a SQL or Windows Authenticated connection to the instance. Options will allow for the following:
+Allows for the creation and password management of a SQL account using a SQL or Windows Authenticated connection to the instance. Options will allow for the following:
 
-Windows Auth: create user using a specified Windows Account
-SQL Auth: create user using a specified SQL Account
-Admin: Will set the user as SysAdmin role in SQL
-Ensure: Present: Create or maintain password for user | Absent: Remove user if found
+Auth: (Windows, SQL)
+- Windows: create user from a specified Windows Account
+- SQL: create user from a specified SQL Account
+Admin: Will add the user to the SysAdmin role in SQL
+Ensure:
+- Present: Create or maintain password for user
+- Absent: Remove user if found
 
-::Schema::
-User: <PSCredential>
-Admin: <Boolean (True|False)>
-Auth: <Switch (Windows|SQL)> (Default: SQL)
-Credential: <PSCredential> (Default: Read SA password file)
-Ensure: <Switch (Present|Absent)>
+Minimum requirements of the module are:
+Name(module key), User(PSCredential),Ensure(Present,Absent)
+
+If Auth is not specified, SQL AUTH is presumed.
+If Credential is not specified:
+- Windows AUTH will presume the user account running DSC (generally SYSTEM).
+- SQL AUTH will presume 'sa' user and pull the password from a file at the base of the C drive 'SQL_SA_Password.txt'.
+Note that SYSTEM does not have required rights in recent versions of SQL by default.
+Both User and Credential must be provided as a PScredential object within DSC.
+
+
 
 ```PoSh
-rsSQLUser myUser
+rsSQLUser AppUser
 {
+    Name = AppUser
     User = $Credentials.AppUser
     Admin = $false
     Auth = "Windows"
