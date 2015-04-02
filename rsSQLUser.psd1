@@ -12,7 +12,7 @@ Author = 'Rackspace'
 CompanyName = 'Rackspace'
 
 # Copyright statement for this module
-Copyright = '(c) 2014 Rackspace. All rights reserved.'
+Copyright = '(c) 2015 Rackspace. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'Module with DSC Resources for rsWPI area'
