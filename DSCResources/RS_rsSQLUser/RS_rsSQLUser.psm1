@@ -159,8 +159,8 @@ function Set-TargetResource
                 Write-Verbose "Credential test successful. Connecting to SQL with SQL Credentials."
                 $server = $null
                 $server = new-object Microsoft.SqlServer.Management.Smo.Server("localhost")
-                $server.ConnectionContext.ConnectAsUser = $true
-                $server.ConnectionContext.LoginSecure = $false
+                $server.ConnectionContext.ConnectAsUser = $false
+                $server.ConnectionContext.LoginSecure = $true
                 $server.ConnectionContext.ConnectAsUserName = $Credential.UserName
                 $server.ConnectionContext.ConnectAsUserPassword = $Credential.GetNetworkCredential().Password
                 Write-Verbose "$server.Loginmode"
@@ -173,8 +173,8 @@ function Set-TargetResource
                 Write-Verbose "Connecting to SQL with SA Credentials."
                 $server = $null
                 $server = new-object Microsoft.SqlServer.Management.Smo.Server("localhost")
-                $server.ConnectionContext.ConnectAsUser = $true
-                $server.ConnectionContext.LoginSecure = $false
+                $server.ConnectionContext.ConnectAsUser = $false
+                $server.ConnectionContext.LoginSecure = $true
                 $server.ConnectionContext.ConnectAsUserName = "sa"
                 $server.ConnectionContext.ConnectAsUserPassword =$pass
                 Write-Verbose "$server.Loginmode"
